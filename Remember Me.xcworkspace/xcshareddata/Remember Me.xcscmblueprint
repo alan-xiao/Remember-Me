@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "77F2FE3395CEFE58F23FAFAA3E0F238FB84C3E5D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "77F2FE3395CEFE58F23FAFAA3E0F238FB84C3E5D" : 9223372036854775807,
+    "F94EC96BE6BE554EDD763216B2095BE4011BA417" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A5EFB4EF-AE57-4DF3-9C55-B2598DF1075A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "77F2FE3395CEFE58F23FAFAA3E0F238FB84C3E5D" : "Remember%20Me\/",
+    "F94EC96BE6BE554EDD763216B2095BE4011BA417" : "Makestagram\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Remember Me",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Remember Me.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/alan-xiao\/RememberMe.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "77F2FE3395CEFE58F23FAFAA3E0F238FB84C3E5D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/alan-xiao\/Makestagram2.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F94EC96BE6BE554EDD763216B2095BE4011BA417"
+    }
+  ]
+}
