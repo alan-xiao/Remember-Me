@@ -21,8 +21,8 @@ struct PostService {
   
     static let dateFormatter = ISO8601DateFormatter()
     static var imageData: UIImage?
-    static let uid = User.current.uid
-    static var timestamp = dateFormatter.string(from: Date())
+    //static let uid = User.current.uid
+    static let timestamp = dateFormatter.string(from: Date())
     static var returnImageReal: UIImage?
     static var timestampTwo: String?
     static var urlArray = [String]()
@@ -32,7 +32,7 @@ struct PostService {
     
     
     static func create(for image: UIImage) {
-        let imageRef = Storage.storage().reference().child("images/posts/\(uid)/\(timestamp).jpg")
+        let imageRef = Storage.storage().reference().child("images/posts/\(User.current.uid)/\(timestamp).jpg")
         StorageService.uploadImage(image, at: imageRef) { (downloadURL) in
             guard let downloadURL = downloadURL else {
                 return
@@ -71,20 +71,20 @@ struct PostService {
                 } else {
                     print("error")
                 }
-                let imageRef = Storage.storage().reference(forURL: "gs://remember-me-b5786.appspot.com/images/posts/\(uid)").child("\(timestamp).jpg")
+                let imageRef = Storage.storage().reference(forURL: "gs://remember-me-b5786.appspot.com/images/posts/\(User.current.uid)").child("\(timestamp).jpg")
                 self.download(ref: imageRef, completion: { (image) in
                     if let image = image {
                         if let returnImage = imageData {
                             let returnImageTwo = drawRectangle(image: returnImage, widthArray: widthArray, heightArray: heightArray, leftArray: leftArray, topArray: topArray)
-                            returnImageReal = returnImageTwo
+                            let returnImageThree = numbersOnImage(image: returnImageTwo, widthArray: widthArray, heightArray: heightArray, leftArray: leftArray, topArray: topArray)
+                            returnImageReal = returnImageThree
                             print("hi")
                         }
                         else {
                             print ("nil")
                         }
-//                        let imageRefTwo = Storage.storage().reference().child("images/posts/\(uid)/\(timestamp).jpg")
-                        timestamp = dateFormatter.string(from: Date())
-                        let databaseRefTwo = Database.database().reference().child("posts_boxed").child(uid).child(timestamp)
+                        //let imageRefTwo = Storage.storage().reference().child("images/posts/\(uid)/\(timestamp).jpg")
+                        let databaseRefTwo = Database.database().reference().child("posts_boxed").child(User.current.uid).child(timestamp)
                         if let returnDaRealImage = returnImageReal{
                             PostService.uploadImage(returnDaRealImage, at: imageRef){ (downloadURL) in
                                 guard let downloadURL = downloadURL else {
@@ -92,7 +92,7 @@ struct PostService {
                                 }
                                 let urlStrTwo = downloadURL.absoluteString
                                 let aspectHeight = image.aspectHeight
-                                //create(forURLString: urlStrTwo, aspectHeight: aspectHeight)
+                                create(forURLString: urlStrTwo, aspectHeight: aspectHeight)
                                 databaseRefTwo.updateChildValues(["url": urlStrTwo], withCompletionBlock: { (error, ref) in
                                     if error != nil {
                                         return
@@ -116,7 +116,7 @@ struct PostService {
     
     
     static func download(ref: StorageReference , completion: @escaping (UIImage?) -> ()) {
-        let imageURL = Storage.storage().reference(forURL: "gs://remember-me-b5786.appspot.com/images/posts/\(uid)").child("\(timestamp).jpg")
+        let imageURL = Storage.storage().reference(forURL: "gs://remember-me-b5786.appspot.com/images/posts/\(User.current.uid)").child("\(timestamp).jpg")
         imageURL.downloadURL(completion: { (url, error) in
             if error != nil {
                 print(error!)
@@ -241,4 +241,28 @@ struct PostService {
             completion(metadata?.downloadURL())
         })
     }
+    
+    static func numbersOnImage(image: UIImage, widthArray: Array<Int>, heightArray: Array<Int>, leftArray: Array<Int>, topArray: Array<Int>) -> UIImage {
+        let textColor = UIColor.white
+        let textFont = UIFont(name: "Helvetica", size: 70)!
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+        
+        let textFontAttributes = [
+            NSFontAttributeName: textFont,
+            NSForegroundColorAttributeName: textColor,
+            ] as [String : Any]
+        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+        
+        for i in 0...widthArray.count-1{
+            let point = CGPoint(x: leftArray[i], y: topArray[i]-70)
+            let rect = CGRect(origin: point, size: image.size)
+            "\(i+1)".draw(in: rect, withAttributes: textFontAttributes)
+        }
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
+    }
+    
 }

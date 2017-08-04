@@ -10,11 +10,14 @@ import Foundation
 import UIKit
 
 class PostHeaderCell: UITableViewCell {
+    var didTapOptionsButtonForCell: ((PostHeaderCell) -> Void)?
     static let height: CGFloat = 54
     @IBOutlet weak var usernameLabel: UILabel!
     
     @IBAction func optionsButtonTapped(_ sender: UIButton) {
         print("options button tapped")
+        didTapOptionsButtonForCell?(self)
+        
     }
     override func awakeFromNib() {
         super.awakeFromNib()

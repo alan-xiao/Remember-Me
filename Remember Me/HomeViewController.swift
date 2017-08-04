@@ -16,6 +16,7 @@ import CoreGraphics
 import FirebaseAuthUI
 
 class HomeViewController: UIViewController{
+    static var nameString: String?
     let refreshControl = UIRefreshControl()
     var posts = [Post]()
     var postURLS = [String]()
@@ -90,7 +91,7 @@ extension HomeViewController: UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostHeaderCell") as! PostHeaderCell
             cell.usernameLabel.text = post.poster.username
-            
+            cell.didTapOptionsButtonForCell = handleOptionsButtonTap(from:)
             return cell
             
         case 1:
@@ -126,6 +127,39 @@ extension HomeViewController: UITableViewDataSource {
         cell.likeCountLabel.text = "\(post.likeCount) likes"
     }
     
+    func handleOptionsButtonTap(from cell: PostHeaderCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let post = posts[indexPath.section]
+        //let poster = post.poster
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let flagAction = UIAlertAction(title: "Assign Names", style: .default) { _ in
+            let alertController = UIAlertController(title: nil, message: "Assign the first and last names of the faces from left to right. Separate each name with a comma with no space.", preferredStyle: .alert)
+            let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
+                if let field = alertController.textFields?[0] {
+                    // store your data
+                    UserDefaults.standard.set(field.text, forKey: "name")
+                    HomeViewController.nameString = field.text
+                    UserDefaults.standard.synchronize()
+                } else {
+                    // user did not fill field
+                }
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+            
+            alertController.addTextField { (textField) in
+                textField.placeholder = "Names"
+            }
+            
+            alertController.addAction(confirmAction)
+            alertController.addAction(cancelAction)
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
+        alertController.addAction(flagAction)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
    
 }
 
