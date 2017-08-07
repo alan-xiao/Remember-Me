@@ -42,8 +42,6 @@
                     <connections>
                         <segue destination="9fx-Gz-tld" kind="relationship" relationship="viewControllers" id="QoC-zz-jYd"/>
                         <segue destination="FIZ-Hb-NX8" kind="relationship" relationship="viewControllers" id="Ap0-2i-0YB"/>
-                        <segue destination="M5b-f0-Vrp" kind="relationship" relationship="viewControllers" id="63O-t6-zob"/>
-                        <segue destination="ZWY-3Q-6BO" kind="relationship" relationship="viewControllers" id="iSI-8a-fQc"/>
                         <segue destination="moc-q9-0yV" kind="relationship" relationship="viewControllers" id="F1A-Tc-6Rj"/>
                     </connections>
                 </tabBarController>

@@ -86,8 +86,41 @@
                                             <outlet property="postImageView" destination="F6n-Kh-Ava" id="D6L-Rg-yhN"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NameCell" rowHeight="50" id="hC9-zD-lvq" userLabel="NameCell" customClass="NameCell" customModule="Remember_Me" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="457" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hC9-zD-lvq" id="cUk-LZ-Y5X">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Names:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2kz-Wq-p0j">
+                                                    <rect key="frame" x="10" y="0.0" width="49" height="49.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2T-sq-qdQ">
+                                                    <rect key="frame" x="66" y="0.0" width="0.0" height="49.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="2kz-Wq-p0j" firstAttribute="top" secondItem="cUk-LZ-Y5X" secondAttribute="top" id="GAI-TQ-nWt"/>
+                                                <constraint firstAttribute="bottom" secondItem="2kz-Wq-p0j" secondAttribute="bottom" id="GV7-eL-JA3"/>
+                                                <constraint firstItem="G2T-sq-qdQ" firstAttribute="top" secondItem="cUk-LZ-Y5X" secondAttribute="top" id="IZg-pa-3hY"/>
+                                                <constraint firstItem="G2T-sq-qdQ" firstAttribute="leading" secondItem="2kz-Wq-p0j" secondAttribute="trailing" constant="7" id="KHu-TU-m79"/>
+                                                <constraint firstItem="2kz-Wq-p0j" firstAttribute="leading" secondItem="cUk-LZ-Y5X" secondAttribute="leading" constant="10" id="Zuw-Kq-INL"/>
+                                                <constraint firstAttribute="bottom" secondItem="G2T-sq-qdQ" secondAttribute="bottom" id="cjF-hg-cVv"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="nameLabel" destination="G2T-sq-qdQ" id="gXl-uE-Qbm"/>
+                                        </connections>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PostActionCell" rowHeight="46" id="sTs-2O-M2e" customClass="PostActionCell" customModule="Remember_Me" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="457" width="375" height="46"/>
+                                        <rect key="frame" x="0.0" y="507" width="375" height="46"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sTs-2O-M2e" id="44C-hF-39W">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="46"/>

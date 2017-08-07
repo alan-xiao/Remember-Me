@@ -45,6 +45,7 @@
 		F68472041F19450D004D9539 /* ListFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68472031F19450D004D9539 /* ListFriendsViewController.swift */; };
 		F68472061F1945A3004D9539 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68472051F1945A3004D9539 /* MainTabBarController.swift */; };
 		F68472081F194975004D9539 /* MGPhotoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68472071F194975004D9539 /* MGPhotoHelper.swift */; };
+		F6E034691F34D8B200C21632 /* NameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E034681F34D8B200C21632 /* NameCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		F68472031F19450D004D9539 /* ListFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListFriendsViewController.swift; sourceTree = "<group>"; };
 		F68472051F1945A3004D9539 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		F68472071F194975004D9539 /* MGPhotoHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MGPhotoHelper.swift; sourceTree = "<group>"; };
+		F6E034681F34D8B200C21632 /* NameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 				F604FF601F2316D9007EF56E /* FindFriendsViewController.swift */,
 				F604FF651F2320DA007EF56E /* FindFriendsCell.swift */,
 				F60CE9431F2FB1D700EC493C /* ProfileViewController.swift */,
+				F6E034681F34D8B200C21632 /* NameCell.swift */,
 			);
 			path = "Remember Me";
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 			files = (
 				F68472001F19445C004D9539 /* QuizViewController.swift in Sources */,
 				F68471EB1F193D9C004D9539 /* ViewController.swift in Sources */,
+				F6E034691F34D8B200C21632 /* NameCell.swift in Sources */,
 				F627A4151F22814D0055828D /* HomeViewController.swift in Sources */,
 				F6053F441F22A199008CBFCC /* PostImageCell.swift in Sources */,
 				F68472061F1945A3004D9539 /* MainTabBarController.swift in Sources */,

@@ -22,7 +22,7 @@ struct PostService {
     static let dateFormatter = ISO8601DateFormatter()
     static var imageData: UIImage?
     //static let uid = User.current.uid
-    static let timestamp = dateFormatter.string(from: Date())
+    static var timestamp = dateFormatter.string(from: Date())
     static var returnImageReal: UIImage?
     static var timestampTwo: String?
     static var urlArray = [String]()
@@ -43,7 +43,7 @@ struct PostService {
             print("image url: \(urlStr)")
             
             
-            Alamofire.request("https://westus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=false&returnFaceLandmarks=false", method: .post, parameters: ["url": urlStr ?? "", "Content-Type": "application/json"], encoding: JSONEncoding.default, headers: ["Ocp-Apim-Subscription-Key": "49e88c64ac624c5eb0496ed7ae5d6863"]).validate().responseJSON{(response) in
+            Alamofire.request("https://westus.api.cognitive.microsoft.com/face/v1.0/detect?returnFaceId=false&returnFaceLandmarks=false", method: .post, parameters: ["url": urlStr, "Content-Type": "application/json"], encoding: JSONEncoding.default, headers: ["Ocp-Apim-Subscription-Key": "49e88c64ac624c5eb0496ed7ae5d6863"]).validate().responseJSON{(response) in
                 var widthArray = [Int]()
                 var topArray = [Int]()
                 var leftArray = [Int]()
@@ -84,6 +84,7 @@ struct PostService {
                             print ("nil")
                         }
                         //let imageRefTwo = Storage.storage().reference().child("images/posts/\(uid)/\(timestamp).jpg")
+                        timestamp = dateFormatter.string(from: Date())
                         let databaseRefTwo = Database.database().reference().child("posts_boxed").child(User.current.uid).child(timestamp)
                         if let returnDaRealImage = returnImageReal{
                             PostService.uploadImage(returnDaRealImage, at: imageRef){ (downloadURL) in
@@ -92,7 +93,7 @@ struct PostService {
                                 }
                                 let urlStrTwo = downloadURL.absoluteString
                                 let aspectHeight = image.aspectHeight
-                                create(forURLString: urlStrTwo, aspectHeight: aspectHeight)
+                                createTwo(forURLString: urlStrTwo, aspectHeight: aspectHeight)
                                 databaseRefTwo.updateChildValues(["url": urlStrTwo], withCompletionBlock: { (error, ref) in
                                     if error != nil {
                                         return
@@ -164,7 +165,39 @@ struct PostService {
             // 7
             rootRef.updateChildValues(updatedData)
         }
-    }    
+    }
+    private static func createTwo(forURLString urlString: String, aspectHeight: CGFloat) {
+        let currentUser = User.current
+        let post = Post(imageURL: urlString, imageHeight: aspectHeight)
+        
+        // 1
+        let rootRef = Database.database().reference()
+        let newPostRef = rootRef.child("posts_boxed").child(currentUser.uid).childByAutoId()
+        let newPostKey = newPostRef.key
+        UserService.followers(for: currentUser) { (followerUIDs) in
+            // 3
+            let timelinePostDict = ["poster_uid" : currentUser.uid]
+            
+            // 4
+            var updatedData: [String : Any] = ["timeline/\(currentUser.uid)/\(newPostKey)" : timelinePostDict]
+            
+            // 5
+            for uid in followerUIDs {
+                updatedData["timeline/\(uid)/\(newPostKey)"] = timelinePostDict
+            }
+            
+            // 6
+            let postDict = post.dictValue
+            updatedData["posts/\(currentUser.uid)/\(newPostKey)"] = postDict
+            
+            // 7
+            rootRef.updateChildValues(updatedData)
+        }
+
+        
+        // 2
+    }
+
     static func show(forKey postKey: String, posterUID: String, completion: @escaping (Post?) -> Void) {
         let ref = Database.database().reference().child("posts").child(posterUID).child(postKey)
         
@@ -243,26 +276,44 @@ struct PostService {
     }
     
     static func numbersOnImage(image: UIImage, widthArray: Array<Int>, heightArray: Array<Int>, leftArray: Array<Int>, topArray: Array<Int>) -> UIImage {
-        let textColor = UIColor.white
-        let textFont = UIFont(name: "Helvetica", size: 70)!
-        let scale = UIScreen.main.scale
-        UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
-        
-        let textFontAttributes = [
-            NSFontAttributeName: textFont,
-            NSForegroundColorAttributeName: textColor,
-            ] as [String : Any]
-        image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
-        
-        for i in 0...widthArray.count-1{
-            let point = CGPoint(x: leftArray[i], y: topArray[i]-70)
-            let rect = CGRect(origin: point, size: image.size)
-            "\(i+1)".draw(in: rect, withAttributes: textFontAttributes)
+        if widthArray.count != 0 {
+            var a = leftArray
+            print(a)
+            for x in 1..<a.count {
+                var y = x
+                let temp = a[y]
+                while y > 0 && temp < a[y - 1] {
+                    a[y] = a[y - 1]                // 1
+                    y -= 1
+                }
+                a[y] = temp                      // 2
+            }
+            print(a)
+            let textColor = UIColor.white
+            let textFont = UIFont(name: "Helvetica", size: 60)!
+            let scale = UIScreen.main.scale
+            UIGraphicsBeginImageContextWithOptions(image.size, false, scale)
+            
+            let textFontAttributes = [
+                NSFontAttributeName: textFont,
+                NSForegroundColorAttributeName: textColor,
+                ] as [String : Any]
+            image.draw(in: CGRect(origin: CGPoint.zero, size: image.size))
+            
+            for i in 0...a.count-1{
+                let point = CGPoint(x: a[i], y: topArray[i]-60)
+                let rect = CGRect(origin: point, size: image.size)
+                "\(i+1)".draw(in: rect, withAttributes: textFontAttributes)
+            }
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            return newImage!
+        } else{
+            return image
         }
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage!
     }
-    
 }
+
+    
+

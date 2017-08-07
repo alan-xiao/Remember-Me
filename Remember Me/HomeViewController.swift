@@ -20,6 +20,11 @@ class HomeViewController: UIViewController{
     let refreshControl = UIRefreshControl()
     var posts = [Post]()
     var postURLS = [String]()
+    var nameArray: Array<String> = [] {
+        didSet{
+            print(nameArray)
+        }
+    }
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -29,6 +34,8 @@ class HomeViewController: UIViewController{
         
         return dateFormatter
     }()
+    
+    
     
 //    override func viewDidLoad() {
 //        super.viewDidLoad()
@@ -80,7 +87,7 @@ class HomeViewController: UIViewController{
 
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -106,6 +113,15 @@ extension HomeViewController: UITableViewDataSource {
             return cell
             
         case 2:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "NameCell") as! NameCell
+            if let name = HomeViewController.nameString {
+                cell.nameLabel.text = nameArray[0]
+            }else{
+                //do nothing
+            }
+            return cell
+            
+        case 3:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostActionCell") as! PostActionCell
             cell.delegate = self
             configureCell(cell, with: post)
@@ -139,6 +155,9 @@ extension HomeViewController: UITableViewDataSource {
                     // store your data
                     UserDefaults.standard.set(field.text, forKey: "name")
                     HomeViewController.nameString = field.text
+                    self.nameArray = HomeViewController.parseString(nameString: HomeViewController.nameString!)
+//                    let ref = Database.database().reference().child("names/\(User.current.uid)")
+//                    ref.setValue(self.nameArray)
                     UserDefaults.standard.synchronize()
                 } else {
                     // user did not fill field
@@ -160,6 +179,25 @@ extension HomeViewController: UITableViewDataSource {
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
+    
+    static func parseString(nameString: String) -> Array<String>{
+        var tempStr = ""
+        var strArray = [String]()
+        for character in nameString.characters{
+            if character != "," {
+                tempStr = tempStr + "\(character)"
+            } else {
+                strArray.append(tempStr)
+                tempStr = ""
+            }
+        }
+        if tempStr != "" {
+            strArray.append(tempStr)
+        }
+        
+        print(strArray)
+        return strArray
+    }
    
 }
 
@@ -174,6 +212,8 @@ extension HomeViewController: UITableViewDelegate {
             return post.imageHeight
             
         case 2:
+            return NameCell.height
+        case 3:
             return PostActionCell.height
             
         default:
