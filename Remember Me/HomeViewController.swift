@@ -16,11 +16,13 @@ import CoreGraphics
 import FirebaseAuthUI
 
 class HomeViewController: UIViewController{
+    var timestamp = ""
     static var nameString: String?
     let refreshControl = UIRefreshControl()
     var posts = [Post]()
-    var postURLS = [String]()
-    var nameArray: Array<String> = [] {
+    //var postURLS = [String]()
+    var postBoxedArray = [PostBoxed]()
+    static var nameArray: Array<String> = [] {
         didSet{
             print(nameArray)
         }
@@ -55,8 +57,10 @@ class HomeViewController: UIViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UserService.postsBoxed { (stringArray) in
-            self.postURLS = stringArray
+        UserService.postsBoxed { (postBoxedArray) in
+            self.postBoxedArray = postBoxedArray
+            print(self.postBoxedArray)
+            
             self.reloadTimeline()
         }
         //something inside of here that we want to happen everytime we open this view/view controller
@@ -92,12 +96,13 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let post = posts[indexPath.section]
-        let postURL = postURLS[indexPath.section]
+        let postURL = postBoxedArray[indexPath.section].url!
         
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostHeaderCell") as! PostHeaderCell
             cell.usernameLabel.text = post.poster.username
+            cell.optionsButton.tag = indexPath.section
             cell.didTapOptionsButtonForCell = handleOptionsButtonTap(from:)
             return cell
             
@@ -114,11 +119,32 @@ extension HomeViewController: UITableViewDataSource {
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "NameCell") as! NameCell
-            if let name = HomeViewController.nameString {
-                cell.nameLabel.text = nameArray[0]
-            }else{
-                //do nothing
-            }
+//            if let name = HomeViewController.nameString {
+//                if HomeViewController.nameArray.count != 0 {
+//                    var theString: String = ""
+//                    if HomeViewController.nameArray.count == 1{
+//                        theString = "1: " + HomeViewController.nameArray[0]
+//                        cell.nameLabel.text = theString
+//                    } else{
+//                        for i in 0...HomeViewController.nameArray.count-1{
+//                            theString = theString + "\(i+1): " + HomeViewController.nameArray[i]
+//                            if i != HomeViewController.nameArray.count-1{
+//                                theString = theString + ", "
+//                            }
+//                        }
+//                        cell.nameLabel.text = theString
+//                    }
+//                }
+//            }else{
+//                //do nothing
+//            }
+            let ref = Database.database().reference().child("posts_boxed").child(User.current.uid).child(self.postBoxedArray[indexPath.section].key!)
+            ref.observe(.value, with: { (snapshot) in
+                if let snapshot = snapshot.value as? [String: Any] {
+                    print(snapshot)
+                    cell.nameLabel.text = snapshot["names"] as? String
+                }
+            })
             return cell
             
         case 3:
@@ -134,7 +160,7 @@ extension HomeViewController: UITableViewDataSource {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return postURLS.count
+        return postBoxedArray.count
     }
     
     func configureCell(_ cell: PostActionCell, with post: Post) {
@@ -153,12 +179,25 @@ extension HomeViewController: UITableViewDataSource {
             let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
                 if let field = alertController.textFields?[0] {
                     // store your data
-                    UserDefaults.standard.set(field.text, forKey: "name")
-                    HomeViewController.nameString = field.text
-                    self.nameArray = HomeViewController.parseString(nameString: HomeViewController.nameString!)
+//                    UserDefaults.standard.set(field.text, forKey: "name")
+//                    HomeViewController.nameString = field.text
+//                    HomeViewController.nameArray = HomeViewController.parseString(nameString: HomeViewController.nameString!)
 //                    let ref = Database.database().reference().child("names/\(User.current.uid)")
-//                    ref.setValue(self.nameArray)
-                    UserDefaults.standard.synchronize()
+////                    ref.setValue(self.nameArray)
+//                    UserDefaults.standard.synchronize()
+                    if let text = field.text {
+                        if !field.text!.isEmpty {
+                            let ref = Database.database().reference().child("posts_boxed").child(User.current.uid).child(self.postBoxedArray[cell.optionsButton.tag].key!)
+                            ref.updateChildValues(["names": text], withCompletionBlock: { (error, ref) in
+                                if error != nil {
+                                    print(error)
+                                }
+                            })
+                            
+                        }
+                    }
+
+                    
                 } else {
                     // user did not fill field
                 }

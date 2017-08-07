@@ -26,6 +26,8 @@
 		F627A4131F227A9E0055828D /* StorageReference+Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F627A4121F227A9E0055828D /* StorageReference+Post.swift */; };
 		F627A4151F22814D0055828D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F627A4141F22814D0055828D /* HomeViewController.swift */; };
 		F627A4181F2287F00055828D /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F627A4161F2287F00055828D /* Home.storyboard */; };
+		F64A5DA01F38E440002C42BF /* NameService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64A5D9F1F38E440002C42BF /* NameService.swift */; };
+		F64A5DA21F38E5D9002C42BF /* PostBoxed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64A5DA11F38E5D9002C42BF /* PostBoxed.swift */; };
 		F656CB481F1F0C6600E58735 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F656CB471F1F0C6600E58735 /* LaunchScreen.storyboard */; };
 		F661B9701F1EB80600A16D02 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F661B96F1F1EB80600A16D02 /* StorageService.swift */; };
 		F661B9721F1EBA1F00A16D02 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F661B9711F1EBA1F00A16D02 /* PostService.swift */; };
@@ -70,6 +72,8 @@
 		F627A4121F227A9E0055828D /* StorageReference+Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "StorageReference+Post.swift"; sourceTree = "<group>"; };
 		F627A4141F22814D0055828D /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F627A4171F2287F00055828D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Home.storyboard; sourceTree = "<group>"; };
+		F64A5D9F1F38E440002C42BF /* NameService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameService.swift; sourceTree = "<group>"; };
+		F64A5DA11F38E5D9002C42BF /* PostBoxed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostBoxed.swift; sourceTree = "<group>"; };
 		F656CB471F1F0C6600E58735 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ../../LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F661B96F1F1EB80600A16D02 /* StorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		F661B9711F1EBA1F00A16D02 /* PostService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
@@ -183,6 +187,8 @@
 				F604FF651F2320DA007EF56E /* FindFriendsCell.swift */,
 				F60CE9431F2FB1D700EC493C /* ProfileViewController.swift */,
 				F6E034681F34D8B200C21632 /* NameCell.swift */,
+				F64A5D9F1F38E440002C42BF /* NameService.swift */,
+				F64A5DA11F38E5D9002C42BF /* PostBoxed.swift */,
 			);
 			path = "Remember Me";
 			sourceTree = "<group>";
@@ -321,6 +327,7 @@
 				F68472001F19445C004D9539 /* QuizViewController.swift in Sources */,
 				F68471EB1F193D9C004D9539 /* ViewController.swift in Sources */,
 				F6E034691F34D8B200C21632 /* NameCell.swift in Sources */,
+				F64A5DA01F38E440002C42BF /* NameService.swift in Sources */,
 				F627A4151F22814D0055828D /* HomeViewController.swift in Sources */,
 				F6053F441F22A199008CBFCC /* PostImageCell.swift in Sources */,
 				F68472061F1945A3004D9539 /* MainTabBarController.swift in Sources */,
@@ -329,6 +336,7 @@
 				F6053F481F22B165008CBFCC /* PostActionCell.swift in Sources */,
 				F68471F11F193D9C004D9539 /* Remember_Me.xcdatamodeld in Sources */,
 				F604FF661F2320DA007EF56E /* FindFriendsCell.swift in Sources */,
+				F64A5DA21F38E5D9002C42BF /* PostBoxed.swift in Sources */,
 				F68472041F19450D004D9539 /* ListFriendsViewController.swift in Sources */,
 				F6053F461F22AB4A008CBFCC /* PostHeaderCell.swift in Sources */,
 				F661B9701F1EB80600A16D02 /* StorageService.swift in Sources */,

@@ -93,8 +93,8 @@ struct PostService {
                                 }
                                 let urlStrTwo = downloadURL.absoluteString
                                 let aspectHeight = image.aspectHeight
-                                createTwo(forURLString: urlStrTwo, aspectHeight: aspectHeight)
-                                databaseRefTwo.updateChildValues(["url": urlStrTwo], withCompletionBlock: { (error, ref) in
+                                //create(forURLString: urlStrTwo, aspectHeight: aspectHeight)
+                                databaseRefTwo.updateChildValues(["url": urlStrTwo, "names": ""], withCompletionBlock: { (error, ref) in
                                     if error != nil {
                                         return
                                     }
@@ -166,37 +166,38 @@ struct PostService {
             rootRef.updateChildValues(updatedData)
         }
     }
-    private static func createTwo(forURLString urlString: String, aspectHeight: CGFloat) {
-        let currentUser = User.current
-        let post = Post(imageURL: urlString, imageHeight: aspectHeight)
-        
-        // 1
-        let rootRef = Database.database().reference()
-        let newPostRef = rootRef.child("posts_boxed").child(currentUser.uid).childByAutoId()
-        let newPostKey = newPostRef.key
-        UserService.followers(for: currentUser) { (followerUIDs) in
-            // 3
-            let timelinePostDict = ["poster_uid" : currentUser.uid]
-            
-            // 4
-            var updatedData: [String : Any] = ["timeline/\(currentUser.uid)/\(newPostKey)" : timelinePostDict]
-            
-            // 5
-            for uid in followerUIDs {
-                updatedData["timeline/\(uid)/\(newPostKey)"] = timelinePostDict
-            }
-            
-            // 6
-            let postDict = post.dictValue
-            updatedData["posts/\(currentUser.uid)/\(newPostKey)"] = postDict
-            
-            // 7
-            rootRef.updateChildValues(updatedData)
-        }
-
-        
-        // 2
-    }
+//    private static func createTwo(forURLString urlString: String, aspectHeight: CGFloat) {
+//        let currentUser = User.current
+////        let postBoxed = PostBoxed(imageURL: urlString, imageHeight: aspectHeight)
+//        
+//        // 1
+//        let rootRef = Database.database().reference()
+//        let newPostRef = rootRef.child("posts_boxed").child(currentUser.uid).childByAutoId()
+//        let newPostKey = newPostRef.key
+//        UserService.followers(for: currentUser) { (followerUIDs) in
+//            // 3
+//            let timelinePostDict = ["poster_uid" : currentUser.uid]
+//            
+//            // 4
+//            var updatedData: [String : Any] = ["timeline/\(currentUser.uid)/\(newPostKey)" : timelinePostDict]
+//            
+//            // 5
+//            for uid in followerUIDs {
+//                updatedData["timeline/\(uid)/\(newPostKey)"] = timelinePostDict
+//            }
+//            
+//            // 6
+//            let postDict = post.dictValue
+////            let postDict = postBoxed.dictValue
+//            updatedData["posts/\(currentUser.uid)/\(newPostKey)"] = postDict
+//            
+//            // 7
+//            rootRef.updateChildValues(updatedData)
+//        }
+//
+//        
+//        // 2
+//    }
 
     static func show(forKey postKey: String, posterUID: String, completion: @escaping (Post?) -> Void) {
         let ref = Database.database().reference().child("posts").child(posterUID).child(postKey)

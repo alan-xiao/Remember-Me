@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class PostHeaderCell: UITableViewCell {
+    @IBOutlet weak var optionsButton: UIButton!
     var didTapOptionsButtonForCell: ((PostHeaderCell) -> Void)?
     static let height: CGFloat = 54
     @IBOutlet weak var usernameLabel: UILabel!

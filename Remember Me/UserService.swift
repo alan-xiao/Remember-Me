@@ -143,7 +143,7 @@ struct UserService {
         })
     }
     
-    static func postsBoxed(completion: @escaping ([String]) -> Void) {
+    static func postsBoxed(completion: @escaping ([PostBoxed]) -> Void) {
         let currentUser = User.current
         
         let timelineRef = Database.database().reference().child("posts_boxed").child(currentUser.uid)
@@ -153,18 +153,21 @@ struct UserService {
             
             let dispatchGroup = DispatchGroup()
             
-            var posts = [String]()
+            var posts = [PostBoxed]()
             
             for postSnap in snapshot {
                 guard let postDict = postSnap.value as? [String : Any],
-                    let posterURL = postDict["url"] as? String
+                    let posterURL = postDict["url"] as? String, let postNames = postDict["names"] as? String
                     else { continue }
                 
                 dispatchGroup.enter()
                 
                 //PostService.show(forKey: postSnap.key, posterUID: posterUID) { (post) in
                 //if let posterURL = posterURL {
-                    posts.append(posterURL)
+                let postBoxed = PostBoxed(key: postSnap.key, names: postNames, imageURL: posterURL)
+                print(postSnap.key)
+                print(posterURL)
+                posts.append(postBoxed)
 
                 //}
                 dispatchGroup.leave()

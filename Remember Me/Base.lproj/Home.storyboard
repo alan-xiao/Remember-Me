@@ -61,6 +61,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="optionsButton" destination="CLD-yg-5GC" id="hYX-bh-aph"/>
                                             <outlet property="usernameLabel" destination="WKN-3H-7jO" id="rxZ-9H-2Ge"/>
                                         </connections>
                                     </tableViewCell>
