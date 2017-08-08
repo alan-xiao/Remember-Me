@@ -91,7 +91,7 @@ class HomeViewController: UIViewController{
 
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -101,7 +101,8 @@ extension HomeViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostHeaderCell") as! PostHeaderCell
-            cell.usernameLabel.text = post.poster.username
+            //cell.usernameLabel.text = post.poster.username
+            cell.usernameLabel.text = timestampFormatter.string(from: post.creationDate)
             cell.optionsButton.tag = indexPath.section
             cell.didTapOptionsButtonForCell = handleOptionsButtonTap(from:)
             return cell
@@ -147,12 +148,12 @@ extension HomeViewController: UITableViewDataSource {
             })
             return cell
             
-        case 3:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PostActionCell") as! PostActionCell
-            cell.delegate = self
-            configureCell(cell, with: post)
-            
-            return cell
+//        case 3:
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "PostActionCell") as! PostActionCell
+//            cell.delegate = self
+//            configureCell(cell, with: post)
+//            
+//            return cell
             
         default:
             fatalError("Error: unexpected indexPath.")
@@ -166,7 +167,8 @@ extension HomeViewController: UITableViewDataSource {
     func configureCell(_ cell: PostActionCell, with post: Post) {
         cell.timeAgoLabel.text = timestampFormatter.string(from: post.creationDate)
         cell.likeButton.isSelected = post.isLiked
-        cell.likeCountLabel.text = "\(post.likeCount) likes"
+        //cell.likeCountLabel.text = "\(post.likeCount) likes"
+        cell.likeCountLabel.text = ""
     }
     
     func handleOptionsButtonTap(from cell: PostHeaderCell) {
@@ -188,7 +190,9 @@ extension HomeViewController: UITableViewDataSource {
                     if let text = field.text {
                         if !field.text!.isEmpty {
                             let ref = Database.database().reference().child("posts_boxed").child(User.current.uid).child(self.postBoxedArray[cell.optionsButton.tag].key!)
-                            ref.updateChildValues(["names": text], withCompletionBlock: { (error, ref) in
+                            let nameArray = self.parseString(nameString: text)
+                            let theString = self.combineString(nameArray: nameArray)
+                            ref.updateChildValues(["names": theString], withCompletionBlock: { (error, ref) in
                                 if error != nil {
                                     print(error)
                                 }
@@ -219,7 +223,7 @@ extension HomeViewController: UITableViewDataSource {
         present(alertController, animated: true, completion: nil)
     }
     
-    static func parseString(nameString: String) -> Array<String>{
+    func parseString(nameString: String) -> Array<String>{
         var tempStr = ""
         var strArray = [String]()
         for character in nameString.characters{
@@ -236,6 +240,26 @@ extension HomeViewController: UITableViewDataSource {
         
         print(strArray)
         return strArray
+    }
+    
+    func combineString(nameArray: Array<String>) -> String{
+        var theString = ""
+        if nameArray.count != 0 {
+            if nameArray.count == 1{
+                theString = "1: " + nameArray[0]
+                return theString
+            }else{
+                for i in 0...nameArray.count-1{
+                    theString = theString + "\(i+1): " + nameArray[i]
+                    if i != nameArray.count-1{
+                        theString = theString + ", "
+                    }
+                }
+                return theString
+            }
+        }else{
+            return theString
+        }
     }
    
 }
